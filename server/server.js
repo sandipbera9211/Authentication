@@ -11,7 +11,7 @@ const port=process.env.Port || 4000;
 
 connectDB();
 
-const allowedOriginals=['http://localhost:5173','']
+const allowedOriginals=['https://authentication-frontend-6qhm.onrender.com','']
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({origin:allowedOriginals, credentials:true}))
