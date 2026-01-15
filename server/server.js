@@ -7,11 +7,12 @@ import authRouter from './routes/authRoutes.js'
 import userRouter from "./routes/userRoute.js";
 
 const app=express();
-const port=process.env.Port || 4000;
+const port=process.env.PORT || 4000;
 
 connectDB();
 
-const allowedOriginals=['https://authentication-frontend-6qhm.onrender.com','']
+const allowedOriginals=['https://authentication-frontend-6qhm.onrender.com','http://localhost:5173']
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({origin:allowedOriginals, credentials:true}))
