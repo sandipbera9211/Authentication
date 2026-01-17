@@ -22,16 +22,23 @@ const allowedOrigins = [
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: function(origin, callback) {
-    if(!origin) return callback(null, true); // allow Postman / server-side requests
-    if(allowedOrigins.indexOf(origin) === -1){
-      return callback(new Error('CORS Policy Blocked this origin'), false);
-    }
-    return callback(null, true);
-  },
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // If no origin (like Postman or server-to-server requests), allow it
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log('Blocked by CORS:', origin); // Optional: debug blocked origins
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+  })
+);
+
 
 // Routes
 app.get('/', (req, res) => res.send("API working..."));
