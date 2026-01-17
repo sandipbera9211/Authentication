@@ -12,12 +12,13 @@ const port = process.env.PORT || 4000;
 // Connect DB
 connectDB();
 
-// ✅ Put CORS first
+// ✅ Allowed origins
 const allowedOrigins = [
-  'http://localhost:5173', // dev
+  'http://localhost:5173',
   'https://authentication-frontend-r49s.onrender.com', // your deployed frontend
 ];
 
+// ✅ Global CORS middleware
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true); // allow Postman or server requests
@@ -36,12 +37,6 @@ app.use(cookieParser());
 app.get('/', (req, res) => res.send("API working..."));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
-
-// ✅ Handle preflight requests for all routes
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
 
 app.listen(port, () => console.log(`server started on Port:${port}`));
 
