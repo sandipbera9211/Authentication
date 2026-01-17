@@ -11,11 +11,32 @@ const port=process.env.PORT || 4000;
 
 connectDB();
 
-const allowedOriginals=['https://authentication-frontend-r49s.onrender.com','http://localhost:5173']
+const allowedOrigins = [
+  'https://authentication-frontend-r49s.onrender.com',
+  'http://localhost:5173'
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
+app.options('*', cors());
+
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin:allowedOriginals, credentials:true}))
+
 
 //Api EndPoints.
 app.get('/',(req,res)=> res.send("Api working..."))
